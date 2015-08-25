@@ -1,48 +1,23 @@
-#single_choice
-  = form_tag('/questions') do
-    %form.form-horizontal
-      %table.table.table-condensed
-        %tr.form-group
-          %td
-            = label_tag '类型:'
-          %td
-            = text_field_tag '类型名', '单选题', :class => 'form-control'
-        %tr.form-group
-          %td
-            = label_tag '题目:'
-          %td
-            = text_area_tag '题目', '', :class => 'form-control'
-        %tr.form-group
-          %td
-            = label_tag '选项及答案:'
-          %td.radio_inline
-            .radio_inline
-              = text_field_tag '', '', :type => 'radio'
-              = text_field_tag '选项'
-            .radio_inline
-              = text_field_tag '', '', :type => 'radio'  
-              = text_field_tag '选项'
-            %a.btn.btn-default#add_choice
-              = '添加选项'
-        %tr.form-group
-          %td
-            = label_tag '答案解析:'
-          %td
-            = text_area_tag '答案解析', '', :class => 'form-control'
-        %tr.form-group
-          %td
-            = label_tag '难度系数:'
-          %td
-            = select_tag '难度系数', "<option>0.1</option><option>0.2</option><option>0.3</option><option>0.4</option><option>0.5</option><option>0.6</option>",:prompt =>'请选择'
-        %tr.form-group
-          %td
-            = label_tag '状态:'
-          %td
-            = check_box_tag '状态', '启用' , true
-            = '启用'
-            = check_box_tag '状态', '禁用' , false
-            = '禁用'
-      .form-group
-        = submit_tag '添加', :class => 'btn-default'
-        %a.btn.btn-default#preview
-          = '预览'
+.page-new-question-single-choice
+  = simple_form_for QuestionBank::Question.new,:input_html  => {:class => "form-horizontal"} do |f|
+    = f.input :kind, :as => :hidden, :input_html => { :value => "single_choice" }
+
+    = f.input :content, as: :text
+
+    = f.input :choice_answer_indexs do
+      .radio
+        = f.text_field :choice_answer_indexs,:type => 'radio',:value => 0, :name => 'question[choice_answer_indexs][]', :id => 'question_choice_answer_indexs_1'
+        = f.text_field :choices, :name => "question[choices][]"
+      .radio
+        = f.text_field :choice_answer_indexs,:type => 'radio',:value => 1, :name => 'question[choice_answer_indexs][]', :id => 'question_choice_answer_indexs_2'
+        = f.text_field :choices, :name => "question[choices][]"
+      %a.btn.btn-default.add-choice
+        = '添加选项'
+
+    = f.input :analysis, as: :text
+
+    = f.input :level, collection: [ "1", "2", "3","4","5", "6","7","8","9","10"], :prompt =>'请选择难度系数'
+
+    = f.input :enabled, as: :radio_buttons, collection: [[true,'启用'],[false,'禁用']], value_method: :first, label_method: :last
+
+    = f.button :submit, "添加题目"

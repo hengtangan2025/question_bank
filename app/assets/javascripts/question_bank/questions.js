@@ -1,11 +1,9 @@
 jQuery(document).ready(function(){
-  jQuery('#add_choice').click(function(){
-    html =
-      "<div class='radio_inline'>" + 
-        "<input type = 'radio',name = '',id = '',value = ''>" +
-        "&nbsp"+
-        "<input type = 'text',name = '选项',id = '__'>" +
-      "</div>" 
-    jQuery('#add_choice').before(html);
+  var n = 1
+  jQuery('.page-new-question-single-choice .add-choice').click(function(){
+    n++
+    dom = jQuery('.page-new-question-single-choice .question_choice_answer_indexs .radio:last').clone()
+    dom.find('#question_choice_answer_indexs_2').val(n)
+    jQuery('.page-new-question-single-choice .add-choice').before(dom);
   })
 })
