@@ -3,10 +3,22 @@ module QuestionBank
     def new_single_choice
     end
 
+    def new_multi_choice
+    end
+
     def new_bool
+      @question = Question.new
     end
 
     def new_mapping
+      @question = Question.new
+    end
+
+    def new_essay
+      @question = Question.new
+    end
+
+    def new_fill
       @question = Question.new
     end
 
@@ -30,6 +42,14 @@ module QuestionBank
         params.require(:question).permit(:kind, :content, :analysis, :level, :enabled, :choices => [], :choice_answer_indexs => [])
       end
 
+      def question_multi_choice_params
+        params.require(:question).permit(:kind, :content, :analysis, :level, :enabled, :choices => [], :choice_answer_indexs => [])
+      end
+
+      def question_fill_params
+        params.require(:question).permit(:kind, :content, :fill_answer, :analysis, :level, :enabled)
+      end
+
       def question_mapping_params
         new_mapping_answer = []
         params[:question][:mapping_answer].each { |key,value| new_mapping_answer[key.to_i] = value}
@@ -38,5 +58,8 @@ module QuestionBank
         hash
       end
 
+      def question_essay_params
+        params.require(:question).permit(:kind, :content, :analysis, :essay_answer, :level, :enabled)
+      end
   end
 end
