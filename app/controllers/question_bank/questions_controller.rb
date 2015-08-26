@@ -1,9 +1,11 @@
 module QuestionBank
   class QuestionsController < QuestionBank::ApplicationController
     def new_single_choice
+      @question = Question.new
     end
 
     def new_multi_choice
+      @question = Question.new
     end
 
     def new_bool
@@ -22,6 +24,10 @@ module QuestionBank
       @question = Question.new
     end
 
+    def index
+      @questions = Question.all
+    end
+
     def create
       kind = params[:question][:kind]
       hash = send("question_#{kind}_params")
@@ -29,7 +35,7 @@ module QuestionBank
       if @question.save
         redirect_to questions_path
       else
-        redirect_to(send("new_#{kind}_questions_path"))
+        render "new_#{kind}"
       end
     end
 
